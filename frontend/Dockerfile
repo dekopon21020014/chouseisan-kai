@@ -22,3 +22,4 @@ EXPOSE 3000
 
 # アプリケーションを起動
 CMD ["npm","run","dev"]
+#CMD ["sh", "-c", "yarn add next react react-dom && yarn dev"]

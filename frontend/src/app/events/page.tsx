@@ -39,7 +39,7 @@ const Index = () => {
             </Typography>
             {events.length > 0 ? (
                 events.map((e, index) => (
-                    <a href={`/events/${e.ID}`}>
+                    <a href={`/events/${e.ID}`} key={e.ID}>
                     <Card key={index} sx={{ marginBottom: 2 }}>
                         <CardActionArea>
                             <CardContent>

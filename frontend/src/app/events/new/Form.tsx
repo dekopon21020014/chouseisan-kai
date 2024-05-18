@@ -27,9 +27,10 @@ export function ContactForm(props: {
                     <Button
                         variant="contained"
                         type='submit'
-                        disabled={props.isLoading}
-                        children='送信'
-                    />
+                        disabled={props.isLoading}                        
+                    >
+                        送信
+                    </Button>
                 </Box>
 
             </Stack>
