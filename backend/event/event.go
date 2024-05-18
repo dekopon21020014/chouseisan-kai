@@ -45,7 +45,6 @@ func all(db *sql.DB) {
 	}
 }
 
-
 func Create(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -58,6 +57,7 @@ func Create(db *sql.DB) gin.HandlerFunc {
 		if err := addEntry(db, &event); err != nil {
 			log.Fatal(err)
 		}
+		c.JSON(200, event)
 
 		fmt.Println("=================================")
 		fmt.Printf("name = %s\ndescription=%s\n", event.Name, event.Description)
@@ -66,3 +66,29 @@ func Create(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
+func GetAllEvents(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		rows, err := db.Query("SELECT * FROM events")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer rows.Close()
+
+		var events []Event
+		for rows.Next() {
+			var event Event
+			if err := rows.Scan(&event.ID, &event.Name, &event.Description); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			events = append(events, event)
+		}
+		if err := rows.Err(); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, events)
+		log.Println(events)
+	}	
+}

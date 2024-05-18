@@ -42,5 +42,6 @@ func main() {
 	router.Use(cors.Default()) // 一旦，どのドメインからでも許可
 
 	router.POST("/events", event.Create(db))
+	router.GET("/events", event.GetAllEvents(db))
 	router.Run()
 }

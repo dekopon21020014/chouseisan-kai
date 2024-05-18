@@ -24,7 +24,7 @@ export const useContactForm = () => {
 
             if (!response.ok) throw new Error();
 
-            router.push('/events/new');
+            router.push('/events');
 
         } catch {
             setHasError(true);
