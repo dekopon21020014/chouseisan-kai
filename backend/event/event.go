@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"log"
+	"strconv"
 )
 
 type Event struct {
@@ -89,6 +90,43 @@ func GetAllEvents(db *sql.DB) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, events)
-		log.Println(events)
 	}	
+}
+/*
+func GetEvent(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		record, err := db.Query("SELECT * FROM events where id=?", id)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		c.JSON(http.StatusOK, record)
+		log.Println(record)
+	}	
+}
+*/
+func GetEvent(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+			log.Fatal(err)
+			return
+		}
+
+		row := db.QueryRow("SELECT * FROM events WHERE id=?", id)
+		var event Event
+		err = row.Scan(&event.ID, &event.Name, &event.Description, /* 他の列 */)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch event"})
+			return
+		}
+
+		c.JSON(http.StatusOK, event)
+	}
 }

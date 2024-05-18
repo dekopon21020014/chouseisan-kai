@@ -12,7 +12,6 @@ const Index = () => {
         const fetchEvents = async () => {
             try {
                 const res = await axios.get('http://localhost:8080/events');
-                console.log(res.data)
                 setEvents(res.data);
             } catch {
                 console.log("error has occurred in /src/app/event/page.tsx");

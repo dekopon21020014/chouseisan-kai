@@ -32,7 +32,7 @@ func setupDB(dsn string) (*sql.DB, error) {
 }
 
 func main() {
-	db, err := setupDB("dtabase.sqlite")
+	db, err := setupDB("database.sqlite")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,5 +43,6 @@ func main() {
 
 	router.POST("/events", event.Create(db))
 	router.GET("/events", event.GetAllEvents(db))
+	router.GET("/events/:id", event.GetEvent(db))
 	router.Run()
 }
