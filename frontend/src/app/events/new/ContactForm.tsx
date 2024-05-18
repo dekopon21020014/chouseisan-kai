@@ -16,7 +16,7 @@ export const useContactForm = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('データを送るURL', {
+            const response = await fetch('http://localhost:8080/events', {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -24,7 +24,7 @@ export const useContactForm = () => {
 
             if (!response.ok) throw new Error();
 
-            router.push('/success');
+            router.push('/events');
 
         } catch {
             setHasError(true);

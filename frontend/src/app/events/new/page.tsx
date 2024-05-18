@@ -8,7 +8,7 @@ export default function Page() {
    const { hasError, isLoading, sendData, closeError } = useContactForm();
 
    return (
-        <div style={{ /* 要素を中央寄せ */
+        <div style={{ //要素を中央寄せ 
             textAlign: 'center',
             padding: 'auto',
         }}>
@@ -22,3 +22,4 @@ export default function Page() {
        </div>
    );
 };
+

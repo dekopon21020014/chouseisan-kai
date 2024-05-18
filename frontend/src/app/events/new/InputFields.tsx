@@ -7,7 +7,7 @@ export function NameField(props: {
 }) {
     return(
         <TextField
-            label="お名前"
+            label="イベント名"
             variant="filled"
             helperText=' '
             {...props.register('name')}
@@ -38,7 +38,7 @@ export function EmailField(props: {
     );
 };
 
-export function MessageField(props: {
+export function DescriptionField(props: {
     register: UseFormRegister<FormValuesType>;
     errorMessage?: string;
 }) {
@@ -46,11 +46,11 @@ export function MessageField(props: {
         <TextField
             multiline
             rows={6}
-            label="お問い合わせ内容（必須）"
+            label="イベント説明（必須）"
             variant="filled"
             error={props.errorMessage !== undefined}
             helperText={props.errorMessage || ' '}
-            {...props.register('message', { required: 'お問い合わせ内容を入力してください' })}
+            {...props.register('description', { required: 'イベントの内容を記述してください' })}
         />
     );
 };
