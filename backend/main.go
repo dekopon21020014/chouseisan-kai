@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
 	"database/sql"
-	"log"	
 	"github.com/dekopon21020014/chouseisan-kai/backend/event"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
+	"log"
 )
 
 func setupDB(dsn string) (*sql.DB, error) {
@@ -16,7 +16,11 @@ func setupDB(dsn string) (*sql.DB, error) {
 	}
 
 	queries := []string{
-		`CREATE TABLE IF NOT EXISTS events(id INTEGER, description TEXT, PRIMARY KEY (id))`,
+		`CREATE TABLE IF NOT EXISTS events(
+			id INTEGER PRIMARY KEY AUTOINCREMENT, 
+			name TEXT, 
+			description TEXT
+		)`,
 	}
 	for _, query := range queries {
 		_, err = db.Exec(query)

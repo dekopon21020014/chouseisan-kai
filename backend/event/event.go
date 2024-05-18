@@ -5,24 +5,64 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"log"
 )
 
-func Create(db *sql.DB) gin.HandlerFunc {
-	type RequestData struct {
-		Name        string `json:"name"`
-		Description string `json:"description"`
-	}
+type Event struct {
+	ID int
+	Name string `json:"name"`
+	Description string `json:"description"`
+}
 
+func addEntry(db *sql.DB, event *Event) error{
+	_, err := db.Exec(`
+        INSERT INTO events(name, description) values(?, ?)
+    `,
+		event.Name,
+		event.Description,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// 一時的に標準出力に出す関数(開発用)
+func all(db *sql.DB) {
+	rows, err := db.Query("SELECT * FROM events")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	// 取得したデータを処理
+	for rows.Next() {
+		var event Event
+		if err := rows.Scan(&event.ID, &event.Name, &event.Description); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Name: %s, Description: %s\n", event.Name, event.Description)
+	}
+}
+
+
+func Create(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var requestData RequestData
-		if err := c.ShouldBindJSON(&requestData); err != nil {
+
+		var event Event
+		if err := c.ShouldBindJSON(&event); err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
-        }		
+        }
+		
+		if err := addEntry(db, &event); err != nil {
+			log.Fatal(err)
+		}
 
 		fmt.Println("=================================")
-		fmt.Printf("name = %s\ndescription=%s\n", requestData.Name, requestData.Description)
+		fmt.Printf("name = %s\ndescription=%s\n", event.Name, event.Description)
 		fmt.Println("=================================")
+		all(db)
 	}
 }
 
