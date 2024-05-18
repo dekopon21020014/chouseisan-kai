@@ -2,7 +2,7 @@
 
 import { Stack, Button, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { NameField, EmailField, MessageField } from './InputFields';
+import { NameField, EmailField, DescriptionField } from './InputFields';
 import {FormValuesType} from "./FormValuesType";
 
 export function ContactForm(props: {
@@ -21,7 +21,7 @@ export function ContactForm(props: {
 
                 <EmailField register={register} errorMessage={errors.email?.message} />
 
-                <MessageField register={register} errorMessage={errors.message?.message} />
+                <DescriptionField register={register} errorMessage={errors.description?.message} />
 
                 <Box textAlign='right'>
                     <Button
