@@ -21,6 +21,20 @@ func setupDB(dsn string) (*sql.DB, error) {
 			name TEXT, 
 			description TEXT
 		)`,
+		`CREATE TABLE IF NOT EXISTS options(
+			id INTEGER PRIMARY KEY AUTOINCREMENT, 
+			event_id INTEGER,
+			item TEXT,
+			FOREIGN KEY (event_id) REFERENCES events(id)
+		)`,
+		`CREATE TABLE IF NOT EXISTS answers(
+			id INTEGER PRIMARY KEY AUTOINCREMENT, 
+			event_id INTEGER,
+			option_id INTEGER,			
+			user TEXT,
+			FOREIGN KEY (event_id) REFERENCES events(id),
+			FOREIGN KEY (option_id) REFERENCES options(id)
+		)`,
 	}
 	for _, query := range queries {
 		_, err = db.Exec(query)

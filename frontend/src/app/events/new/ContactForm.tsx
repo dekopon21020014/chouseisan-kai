@@ -11,8 +11,9 @@ export const useContactForm = () => {
     const router = useRouter();
 
     const closeError = () => setHasError(false);    
+    
     const sendData = async (data: FormValuesType) => {
-        console.log("here is submited")
+        console.log(data);
         setIsLoading(true);
 
         try {
@@ -24,7 +25,7 @@ export const useContactForm = () => {
 
             if (!response.ok) throw new Error();
 
-            router.push('/events');
+            router.push('/events/new');
 
         } catch {
             setHasError(true);

@@ -15,6 +15,7 @@ const Show = () => {
         const fetchEvent = async () => {
             try {
                 const res = await axios.get(`http://localhost:8080/events/${id}`);
+                console.log(res.data)
                 setEvents(res.data);
             } catch (error) {
                 console.log("error has occurred in /src/app/event/page.tsx", error);
@@ -27,31 +28,44 @@ const Show = () => {
     }, [id]);
 
     return (
-        <Container maxWidth="md" style={{ marginTop: '20px' }}>
-            <Typography variant="h4" gutterBottom>
-                イベント詳細
-            </Typography>
-            {event ? (
-                <Card>
-                    <CardContent>
-                        <Typography variant="h6" component="div" gutterBottom>
-                            ID: {event.ID}
-                        </Typography>
-                        <Typography variant="body1" component="div" gutterBottom>
-                            名前: {event.name}
-                        </Typography>
-                        <Typography variant="body1" component="div">
-                            説明: {event.description}
-                        </Typography>
-                        {/* 他のイベントの詳細情報を表示 */}
-                    </CardContent>
-                </Card>
-            ) : (
-                <Typography variant="body1">
-                    ロード中...
+        <div>
+            <Container maxWidth="md" style={{ marginTop: '20px' }}>
+                <Typography variant="h4" gutterBottom>
+                    イベント詳細
                 </Typography>
-            )}
-        </Container>
+                {event ? (
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" component="div" gutterBottom>
+                                ID: {event.ID}
+                            </Typography>
+                            <Typography variant="body1" component="div" gutterBottom>
+                                名前: {event.name}
+                            </Typography>
+                            <Typography variant="body1" component="div">
+                                説明: {event.description}
+                            </Typography>
+                            {/* 他のイベントの詳細情報を表示 */}
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <Typography variant="body1">
+                        ロード中...
+                    </Typography>
+                )}
+            </Container>
+            <div>
+                {event ? (
+                    event.options.map((option, index) => ( 
+                        <div key={index}>
+                            {option}
+                        </div>
+                    ))
+                ) : (
+                    <div>no options</div>                
+                )}                        
+            </div>
+        </div>
     );
 };
 

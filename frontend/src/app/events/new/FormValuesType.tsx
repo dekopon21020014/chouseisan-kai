@@ -1,5 +1,6 @@
 export type FormValuesType = {
-    name?: string;
+    name: string;
     email: string;
     description: string;
+    options: string;
 };

@@ -31,13 +31,12 @@ const Index = () => {
         );
     }
 
-
     return (
         <Box sx={{ padding: 4 }} >
             <Typography variant="h4" component="h1" gutterBottom>
                 ここはイベント一覧
             </Typography>
-            {events.length > 0 ? (
+            {events ? (
                 events.map((e, index) => (
                     <a href={`/events/${e.ID}`} key={e.ID}>
                     <Card key={index} sx={{ marginBottom: 2 }}>

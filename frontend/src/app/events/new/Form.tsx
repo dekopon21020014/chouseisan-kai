@@ -2,7 +2,7 @@
 
 import { Stack, Button, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { NameField, EmailField, DescriptionField } from './InputFields';
+import { NameField, EmailField, DescriptionField, OptionsField } from './InputFields';
 import {FormValuesType} from "./FormValuesType";
 
 export function ContactForm(props: {
@@ -17,11 +17,13 @@ export function ContactForm(props: {
 
             <Stack spacing={2} sx={{ maxWidth: 'sm', margin: 'auto', marginTop: 8 }}>
 
-                <NameField register={register} />
+                <NameField register={register} errorMessage={errors.name?.message}/>
 
                 <EmailField register={register} errorMessage={errors.email?.message} />
 
                 <DescriptionField register={register} errorMessage={errors.description?.message} />
+
+                <OptionsField register={register} errorMessage={errors.options?.message}/>
 
                 <Box textAlign='right'>
                     <Button
