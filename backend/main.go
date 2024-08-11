@@ -2,11 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"log"
+
 	"github.com/dekopon21020014/chouseisan-kai/backend/event"
+	"github.com/dekopon21020014/chouseisan-kai/backend/response"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
-	"log"
 )
 
 func setupDB(dsn string) (*sql.DB, error) {
@@ -27,7 +29,7 @@ func setupDB(dsn string) (*sql.DB, error) {
 			item TEXT,
 			FOREIGN KEY (event_id) REFERENCES events(id)
 		)`,
-		`CREATE TABLE IF NOT EXISTS answers(
+		`CREATE TABLE IF NOT EXISTS responses(
 			id INTEGER PRIMARY KEY AUTOINCREMENT, 
 			event_id INTEGER,
 			option_id INTEGER,			
@@ -58,5 +60,7 @@ func main() {
 	router.POST("/events", event.Create(db))
 	router.GET("/events", event.GetAllEvents(db))
 	router.GET("/events/:id", event.GetEvent(db))
+	router.POST("/events/:id/responses", response.Put(db))
+
 	router.Run()
 }
